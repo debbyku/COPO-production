@@ -57,18 +57,31 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "config.wsgi.application"
-
+WSGI_APPLICATION = "main_config.wsgi.application"
+ASGI_APPLICATION = 'main_config.routing.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': "copo-rebuild",
+        'USER': resolve_env.get_env('POSTGRES_USER'),
+        'PASSWORD': resolve_env.get_env('POSTGRES_PASSWORD'),
+        'HOST': resolve_env.get_env('POSTGRES_SERVICE'),
+        'PORT': resolve_env.get_env('POSTGRES_PORT')
     }
 }
+
+# settings for mongodb
+MONGO_DB = resolve_env.get_env('MONGO_DB')
+MONGO_HOST = resolve_env.get_env('MONGO_HOST')
+MONGO_USER = resolve_env.get_env('MONGO_USER')
+MONGO_USER_PASSWORD = resolve_env.get_env('MONGO_USER_PASSWORD')
+MONGO_PORT = int(resolve_env.get_env('MONGO_PORT'))
+MONGO_MAX_POOL_SIZE = int(resolve_env.get_env('MONGO_MAX_POOL_SIZE'))
+MONGO_DB_TEST = "test_copo_mongo"
 
 
 # Password validation
